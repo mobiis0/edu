@@ -42,13 +42,17 @@
     stateText.textContent = `${employee.name} 님 (${employee.dept}) · 수강할 강의를 선택해 주시기 바랍니다.`;
     setMessage('직원 명단과 일치하였습니다.', 'success');
 
+    const requiredCourses = employee.privacyEligible ? ["sexual", "disability", "privacy"] : ["sexual", "disability"];
+    document.querySelector("#allCoursesCompleted").hidden = !requiredCourses.every(course => employee.completed?.[course]);
+
     courseButtons.forEach(btn => {
       const course = btn.dataset.course;
       const allowed = course !== 'privacy' || !!employee.privacyEligible;
       btn.disabled = false;
       btn.classList.toggle("is-restricted", !allowed);
-      btn.classList.remove("is-completed");
-      if (employee.completed && employee.completed[course]) btn.classList.add('is-completed');
+      const completed = allowed && !!employee.completed?.[course];
+      btn.classList.toggle("is-completed", completed);
+      btn.querySelector(".course-completion-label").hidden = !completed;
       if (course === 'privacy' && !allowed) {
         const small = btn.querySelector('small');
         if (small) small.textContent = '경영기획 대상자만 수강 가능';
