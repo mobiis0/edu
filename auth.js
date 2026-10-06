@@ -1,7 +1,7 @@
 (() => {
   const key = 'mobiisEduSession';
   const config = window.MOBIIS_EDU_CONFIG || {};
-  function api(params) {
+  function request(params) {
     if (!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(config.API_URL || '')) return Promise.reject(new Error('API_URL_NOT_CONFIGURED'));
     return new Promise((resolve, reject) => {
       const callback = `mobiisEdu_${Date.now()}_${Math.random().toString(36).slice(2)}`;
@@ -11,17 +11,30 @@
         if (finished) return;
         finished = true;
         clearTimeout(timer);
-        delete window[callback];
+        if (error) {
+          window[callback] = () => {};
+          setTimeout(() => delete window[callback], 120000);
+        } else {
+          delete window[callback];
+        }
         script.remove();
         error ? reject(error) : resolve(data);
       };
-      const timer = setTimeout(() => clean(new Error('TIMEOUT')), 45000);
+      const timer = setTimeout(() => clean(new Error('TIMEOUT')), 90000);
       window[callback] = data => clean(null, data);
       script.onerror = () => clean(new Error('NETWORK_ERROR'));
       script.referrerPolicy = 'no-referrer';
       script.src = `${config.API_URL}?${new URLSearchParams({...params, callback, year: String(config.YEAR || 2026)})}`;
       document.head.appendChild(script);
     });
+  }
+  async function api(params) {
+    try {
+      return await request(params);
+    } catch (error) {
+      if (params.action !== 'login' || !['TIMEOUT', 'NETWORK_ERROR'].includes(error.message)) throw error;
+      return request(params);
+    }
   }
   function read() { try { return JSON.parse(sessionStorage.getItem(key) || 'null'); } catch (_) { sessionStorage.removeItem(key); return null; } }
   async function validate() {
