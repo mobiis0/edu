@@ -2,18 +2,43 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
-  <title>성희롱 예방교육 | MOBIIS</title><link rel="stylesheet" href="course.css">
+  <title>성희롱 예방교육 | MOBIIS</title><link rel="stylesheet" href="course.css?v=20261006-1">
 </head>
 <body data-course="sexual">
   <div class="wrap">
     <div class="top"><img class="logo" src="assets/mobiis-logo.jpg" alt="MOBIIS"><a class="back" href="index.html">← 교육 목록</a></div>
     <main class="panel">
       <span class="badge">COURSE 01</span><h1>성희롱 예방교육</h1><p>전 임직원 의무 · OX 테스트 5문항 및 이수 확인</p>
-      <div class="placeholder" id="courseContent"><strong>교육 본문 페이지 영역</strong><p>첫 페이지와 직원 명단 확인 구조를 먼저 완성한 상태이며, 다음 단계에서 이곳에 실제 교육자료와 이수 기능을 연결하면 됩니다.</p></div>
+      <div id="courseContent" class="is-locked">
+        <ol class="steps" aria-label="교육 진행 순서"><li id="stepVideo" aria-current="step">1. 교육영상</li><li id="stepQuiz">2. OX 테스트</li><li id="stepConfirm">3. 이수확인</li></ol>
+        <section id="trainingStep">
+          <h2>직장 내 성희롱 예방 교육</h2>
+          <p>영상 길이 37분 33초 · 재생 버튼을 누르면 이 페이지에서 시청할 수 있습니다.</p>
+          <div class="video"><iframe src="https://www.youtube.com/embed/p989BKPg9FM" title="직장 내 성희롱 예방 교육 영상" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+          <p class="source">게시: 안전관리자 엄과장 · 영상 설명에 기재된 출처: 고용노동부 · <a href="https://www.youtube.com/watch?v=p989BKPg9FM" target="_blank" rel="noopener noreferrer">YouTube에서 보기</a></p>
+          <aside class="company-guide">
+            <h3>MOBIIS 상담·신고 및 처리 안내</h3>
+            <p><strong>사내 접수: 경영기획 김나영 선임</strong><br><a href="mailto:nayoung.kim@mobiis.com">nayoung.kim@mobiis.com</a></p>
+            <p>외부 상담: 고용노동부 고객상담센터 1350<br>외부 진정: 관할 지방고용노동관서<br>사내 신고를 거치지 않고 외부기관을 직접 이용할 수 있습니다.</p>
+            <ul><li>회사는 신고를 접수하거나 발생 사실을 알게 되면 지체 없이 사실 확인을 위한 조사를 진행합니다.</li><li>조사 과정에서 피해자가 수치심을 느끼지 않도록 하며, 필요한 경우 피해자의 의사에 반하지 않는 보호조치를 실시합니다.</li><li>사실이 확인되면 피해자가 요청하는 보호조치를 하고, 피해자 의견을 들은 후 행위자에 대한 징계 등 필요한 조치를 합니다.</li><li>신고자와 피해자에 대한 불이익을 금지하며, 조사 과정에서 알게 된 비밀을 보호합니다.</li></ul>
+          </aside>
+          <button class="primary" type="button" id="startQuiz">OX 테스트로 이동</button>
+        </section>
+        <section id="quizStep" hidden>
+          <h2 tabindex="-1" id="quizHeading">OX 테스트 · 5문항</h2><p>모든 문항에 답한 뒤 정답을 확인해 주세요. 5문항 모두 정답이면 이수확인을 제출할 수 있습니다.</p>
+          <form id="quizForm"><div id="quizQuestions"></div><p id="quizFeedback" role="status" aria-live="polite"></p><div class="actions"><button class="secondary" id="backVideo" type="button">영상·회사 안내 다시 보기</button><button class="primary" type="submit">정답 확인</button><button class="primary" type="button" id="toConfirm" hidden>이수확인으로 이동</button></div></form>
+        </section>
+        <section id="confirmStep" hidden>
+          <h2 tabindex="-1" id="confirmHeading">이수완료 확인</h2><p>OX 테스트 5문항을 모두 맞혔습니다. 아래 내용을 확인하고 제출해 주세요.</p>
+          <p class="identity" id="confirmationIdentity"></p>
+          <form id="completionForm"><label class="confirmation"><input type="checkbox" id="completionCheck" required><span>저는 2026년 성희롱 예방교육을 이수하였으며, 이를 확인합니다.</span></label><p id="submitFeedback" role="status" aria-live="polite"></p><div class="actions"><button class="secondary" id="backQuiz" type="button">OX 테스트 다시 보기</button><button class="primary" id="submitCompletion" type="submit" disabled>이수확인 제출</button></div></form>
+        </section>
+        <section id="resultStep" hidden aria-live="polite"><h2 tabindex="-1" id="resultHeading"></h2><p id="resultIntro"></p><div id="resultCourses"></div><p id="reminderNotice" hidden>미이수 교육은 11월부터 주 단위 안내 대상입니다.</p><div class="actions"><a class="secondary" href="index.html">교육 목록으로 돌아가기</a><button class="secondary" id="reviewVideo" type="button">교육자료 다시 보기</button></div></section>
+      </div>
       <p class="status" id="sessionState"></p>
     </main>
   </div>
   <script src="config.js"></script>
-  <script src="auth.js"></script>
-  <script src="course.js"></script>
+  <script src="auth.js?v=20261006-1"></script>
+  <script src="course.js?v=20261006-1"></script>
 </body></html>
