@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MOBIIS 2026 의무교육 이수현황</title>
+  <style>
+    :root{--navy:#17365d;--line:#d8dee8;--bg:#f5f7fa;--text:#1f2937}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,"Noto Sans KR",sans-serif;background:var(--bg);color:var(--text)}
+    .wrap{min-height:100vh;display:grid;place-items:center;padding:24px}
+    .card{width:min(560px,100%);background:#fff;border:1px solid var(--line);border-radius:18px;padding:34px;box-shadow:0 10px 30px rgba(23,54,93,.08)}
+    h1{margin:0 0 8px;font-size:28px;color:var(--navy)}
+    p{margin:0 0 28px;color:#667085;line-height:1.6}
+    .buttons{display:grid;gap:14px}
+    a{display:flex;align-items:center;justify-content:space-between;text-decoration:none;border-radius:12px;padding:18px 20px;font-weight:700;font-size:18px}
+    .primary{background:var(--navy);color:#fff}
+    .secondary{background:#fff;color:var(--navy);border:1px solid var(--navy)}
+    small{display:block;margin-top:24px;color:#8a94a6;line-height:1.5}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="card">
+      <h1>2026 의무교육 이수현황</h1>
+      <p>필요한 항목만 선택해 확인하세요. 이수 기록은 관리대장과 자동으로 연동됩니다.</p>
+      <div class="buttons">
+        <a class="primary" href="https://docs.google.com/spreadsheets/d/1v6wjyaGFJJXkG2Lgfq6NUTErHEfjzA-cKNLlKhh7Ke4/edit#gid=1913519851" target="_blank" rel="noopener">
+          <span>이수자 확인</span><span>›</span>
+        </a>
+        <a class="secondary" href="https://docs.google.com/spreadsheets/d/1v6wjyaGFJJXkG2Lgfq6NUTErHEfjzA-cKNLlKhh7Ke4/edit#gid=15590401" target="_blank" rel="noopener">
+          <span>미이수자 확인</span><span>›</span>
+        </a>
+      </div>
+      <small>이수자 화면: 사원명 · 교육명 · 이수시간<br>미이수자 화면: 사원명 · 부서 · 과목별 상태 · 미이수 수</small>
+    </section>
+  </main>
+</body>
+</html>
