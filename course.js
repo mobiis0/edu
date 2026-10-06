@@ -12,7 +12,8 @@
     state.textContent = employee.name + ' 님 / ' + employee.dept + ' · 본인 확인 완료';
     content.classList.remove('is-locked');
   } catch (_) { state.textContent = '본인 확인 서비스에 연결할 수 없습니다. 잠시 후 다시 시도해 주시기 바랍니다.'; return; }
-  if (course !== 'sexual') return;
+  if (!['sexual','disability'].includes(course)) return;
+  const courseName = course === 'sexual' ? '성희롱 예방교육' : '장애인 인식개선교육';
 
   const questions = [
     {text:'장난이었고 성희롱을 할 의도가 없었다면 직장 내 성희롱에 해당하지 않는다.', answer:'X', explanation:'행위자의 의도가 없었다는 이유만으로 성희롱이 배제되지 않습니다. 피해자의 사정과 같은 처지의 합리적인 사람이 느낄 성적 굴욕감·혐오감 등을 고려합니다.', time:'7:35~7:56'},
@@ -25,31 +26,32 @@
   const quizForm = $('quizForm');
   const check = $('completionCheck');
   const submit = $('submitCompletion');
-  let passed = false;
+  let passed = course !== 'sexual';
   let submitting = false;
-  let saved = !!employee.completed?.sexual;
+  let saved = !!employee.completed?.[course];
   const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  $('quizQuestions').innerHTML = questions.map((q,i) =>
+  if (quizForm) $('quizQuestions').innerHTML = questions.map((q,i) =>
     '<fieldset class="question" id="question'+i+'"><legend>'+(i+1)+'. '+escape(q.text)+'</legend><div class="answers">'+
     ['O','X'].map(a=>'<label><input type="radio" name="q'+i+'" value="'+a+'" required>'+a+'</label>').join('')+
     '</div><p class="explanation" id="explanation'+i+'" hidden></p></fieldset>').join('');
-  $('confirmationIdentity').textContent = employee.name + ' 님 · ' + employee.dept + ' · 2026년 성희롱 예방교육';
+  $('confirmationIdentity').textContent = employee.name + ' 님 · ' + employee.dept + ' · 2026년 ' + courseName;
 
   function show(step) {
-    for (const id of ['trainingStep','quizStep','confirmStep','resultStep']) $(id).hidden = id !== step;
-    for (const id of ['stepVideo','stepQuiz','stepConfirm']) $(id).removeAttribute('aria-current');
+    for (const id of ['trainingStep','quizStep','confirmStep','resultStep']) { if ($(id)) $(id).hidden = id !== step; }
+    for (const id of ['stepVideo','stepQuiz','stepConfirm']) $(id)?.removeAttribute('aria-current');
     const current = {trainingStep:'stepVideo',quizStep:'stepQuiz',confirmStep:'stepConfirm'}[step];
     if (current) $(current).setAttribute('aria-current','step');
     const heading = {quizStep:'quizHeading',confirmStep:'confirmHeading',resultStep:'resultHeading'}[step];
     if (heading) $(heading).focus();
   }
   function canSubmit() { submit.disabled = !passed || !check.checked || submitting || saved; }
-  $('startQuiz').addEventListener('click',()=>show('quizStep'));
-  $('backVideo').addEventListener('click',()=>show('trainingStep'));
-  $('backQuiz').addEventListener('click',()=>show('quizStep'));
+  $('startQuiz').addEventListener('click',()=>show(course === 'sexual' ? 'quizStep' : 'confirmStep'));
+  $('backVideo')?.addEventListener('click',()=>show('trainingStep'));
+  $('backQuiz').addEventListener('click',()=>show(course === 'sexual' ? 'quizStep' : 'trainingStep'));
   $('reviewVideo').addEventListener('click',()=>show('trainingStep'));
-  $('toConfirm').addEventListener('click',()=>{ if(passed) show('confirmStep'); });
+  $('toConfirm')?.addEventListener('click',()=>{ if(passed) show('confirmStep'); });
   check.addEventListener('change',canSubmit);
+  if (quizForm) {
   quizForm.addEventListener('change',event=>{
     if (!event.target.matches('input[type="radio"]')) return;
     passed = false;
@@ -88,6 +90,8 @@
     if(firstWrong) firstWrong.focus();
   });
 
+  }
+
   function showResult() {
     const courses = [
       {code:'sexual',name:'성희롱 예방교육',url:'sexual-harassment.html'},
@@ -114,11 +118,11 @@
     $('submitFeedback').className = '';
     $('submitFeedback').textContent = '본인 확인 정보로 이수기록을 저장하고 있습니다.';
     try {
-      const result = await window.MobiisAuth.api({action:'complete',token:employee.token,course:'sexual',quizScore:5,confirmed:'Y'});
+      const result = await window.MobiisAuth.api({action:'complete',token:employee.token,course,quizScore:course === 'sexual' ? 5 : '',confirmed:'Y'});
       if(!result?.ok) throw new Error(result?.message || '이수기록을 저장하지 못했습니다.');
       saved = true;
       // complete 성공 응답으로 확인한 과목만 갱신합니다.
-      employee.completed = {...employee.completed,sexual:true};
+      employee.completed = {...employee.completed,[course]:true};
       sessionStorage.setItem('mobiisEduSession',JSON.stringify(employee));
       try {
         const latest = await window.MobiisAuth.validate();
@@ -129,7 +133,7 @@
       // 응답이 늦어도 이미 저장된 기록이 있으면 중복 제출 없이 결과를 표시합니다.
       let latest;
       try { latest = await window.MobiisAuth.validate(); } catch (_) {}
-      if(latest?.completed?.sexual) {
+      if(latest?.completed?.[course]) {
         employee = latest;
         saved = true;
         showResult();
