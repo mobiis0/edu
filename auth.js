@@ -15,7 +15,7 @@
         script.remove();
         error ? reject(error) : resolve(data);
       };
-      const timer = setTimeout(() => clean(new Error('TIMEOUT')), 15000);
+      const timer = setTimeout(() => clean(new Error('TIMEOUT')), 45000);
       window[callback] = data => clean(null, data);
       script.onerror = () => clean(new Error('NETWORK_ERROR'));
       script.referrerPolicy = 'no-referrer';
