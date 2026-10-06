@@ -104,11 +104,11 @@
     ];
     if(employee.privacyEligible) courses.push({code:'privacy',name:'개인정보보호교육',url:'privacy.html'});
     const missing = courses.filter(c=>!employee.completed?.[c.code]);
-    $('resultHeading').textContent = missing.length ? '2026년 법정 의무교육 '+missing.length+'과목이 남았습니다.' : '2026년 법정 의무교육을 이수 완료하였습니다.';
+    $('resultHeading').textContent = missing.length ? '2026년 법정 의무교육 '+missing.length+'과목이 남았습니다.' : '수고하셨습니다! 2026년 의무교육 수강이 완료되었습니다.';
     $('resultIntro').textContent = missing.length ? employee.name+' 님은 '+missing.map(c=>c.name).join(', ')+'을(를) 이수하지 않았습니다.' : employee.name+' 님의 대상 교육 '+courses.length+'과목이 모두 이수 완료되었습니다.';
     $('resultCourses').innerHTML = courses.map(c=>{
       const done = !!employee.completed?.[c.code];
-      return '<div class="course-result"><div><strong>'+c.name+'</strong><span>'+(done?'이수 완료':'미이수')+'</span></div>'+(done?'<span class="success">완료</span>':'<a class="primary" href="'+c.url+'">교육 수강하기</a>')+'</div>';
+      return '<div class="course-result"><div><strong>'+c.name+'</strong><span>'+(done?'이수 완료':'미이수')+'</span></div>'+(done?'<span class="primary completed-course">교육 수강 완료</span>':'<a class="primary" href="'+c.url+'">교육 수강하기</a>')+'</div>';
     }).join('');
     $('reminderNotice').hidden = !missing.length;
     show('resultStep');
