@@ -8,12 +8,17 @@
   try {
     employee = await window.MobiisAuth.validate();
     if (!employee) { state.textContent = '로그인이 만료되었거나 본인 확인 정보가 없습니다. 첫 페이지에서 다시 확인해 주시기 바랍니다.'; return; }
-    if (course === 'privacy' && !employee.privacyEligible) { state.textContent = '개인정보보호 교육 대상자가 아닙니다.'; return; }
+    if (course === 'privacy' && !employee.privacyEligible) {
+      state.textContent = '경영기획 실무자만 해당 교육 이수가 필요합니다.';
+      window.alert(state.textContent);
+      window.location.replace('index.html');
+      return;
+    }
     state.textContent = employee.name + ' 님 / ' + employee.dept + ' · 본인 확인 완료';
     content.classList.remove('is-locked');
   } catch (_) { state.textContent = '본인 확인 서비스에 연결할 수 없습니다. 잠시 후 다시 시도해 주시기 바랍니다.'; return; }
-  if (!['sexual','disability'].includes(course)) return;
-  const courseName = course === 'sexual' ? '성희롱 예방교육' : '장애인 인식개선교육';
+  if (!['sexual','disability','privacy'].includes(course)) return;
+  const courseName = {sexual:'성희롱 예방교육',disability:'장애인 인식개선교육',privacy:'개인정보보호교육'}[course];
 
   const questions = [
     {text:'장난이었고 성희롱을 할 의도가 없었다면 직장 내 성희롱에 해당하지 않는다.', answer:'X', explanation:'행위자의 의도가 없었다는 이유만으로 성희롱이 배제되지 않습니다. 피해자의 사정과 같은 처지의 합리적인 사람이 느낄 성적 굴욕감·혐오감 등을 고려합니다.', time:'7:35~7:56'},

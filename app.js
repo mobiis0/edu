@@ -45,7 +45,9 @@
     courseButtons.forEach(btn => {
       const course = btn.dataset.course;
       const allowed = course !== 'privacy' || !!employee.privacyEligible;
-      btn.disabled = !allowed;
+      btn.disabled = false;
+      btn.classList.toggle("is-restricted", !allowed);
+      btn.classList.remove("is-completed");
       if (employee.completed && employee.completed[course]) btn.classList.add('is-completed');
       if (course === 'privacy' && !allowed) {
         const small = btn.querySelector('small');
@@ -89,9 +91,13 @@
 
   courseButtons.forEach(btn => btn.addEventListener('click', () => {
     if (btn.disabled) return;
-    const session = sessionStorage.getItem('mobiisEduSession');
-    if (!session) {
+    const session = window.MobiisAuth.read();
+    if (!session?.token) {
       setMessage('먼저 이름과 생년월일을 확인해 주시기 바랍니다.', 'error');
+      return;
+    }
+    if (btn.dataset.course === 'privacy' && !session.privacyEligible) {
+      window.alert('경영기획 실무자만 해당 교육 이수가 필요합니다.');
       return;
     }
     window.location.href = btn.dataset.href;
