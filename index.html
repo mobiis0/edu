@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>2026년 임직원 법정의무교육 | MOBIIS</title>
   <meta name="robots" content="noindex,nofollow" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=20261006-4" />
 </head>
 <body>
   <header class="brandbar">
@@ -30,6 +30,7 @@
             <strong>미이수자에 대해서는 11월부터 주 단위 안내 메일이 발송될 예정이며,</strong><br />
             <strong>법정 의무교육 미실시 시 회사에 과태료 등 법적 불이익이 발생할 수 있습니다.</strong>
           </div>
+          <p id="allCoursesCompleted" class="all-courses-completed" role="status" hidden>모든 교육을 수강 완료 하셨습니다.</p>
         </div>
       </div>
     </section>
@@ -44,8 +45,6 @@
           <svg viewBox="0 0 64 64"><path d="M21 30a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm22 0a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM5 51c0-9 7-16 16-16s16 7 16 16v3H5v-3Zm22 3v-3c0-5-2-10-6-13 3-2 7-3 11-3 9 0 16 7 16 16v3H27Zm20-18c7 0 12 6 12 13v5H48v-3c0-5-2-10-6-13 2-1 3-2 5-2Z"/></svg>
         </div>
         <div class="course-card__divider"></div>
-        <strong class="course-card__slogan">안전하고 존중하는 조직문화</strong>
-        <p>상호 존중하는 조직문화를 만들기 위한 성희롱 예방교육으로, 모든 임직원이 반드시 이수해야 하는 법정의무교육입니다.</p>
         <div class="requirements">
           <span class="requirements__label">의무사항</span>
           <span>교육 이수 · OX 테스트 5문항 · 이수 완료 확인</span>
@@ -59,8 +58,6 @@
           <svg viewBox="0 0 64 64"><circle cx="31" cy="10" r="6"/><path d="M27 19h8l2 15H24l3-15Zm7 18c8 0 14 6 14 14h-7c0-4-3-7-7-7-3 0-6 2-7 5l-7-2c2-6 7-10 14-10Z"/><path d="M26 29c-9 2-15 10-15 19 0 11 9 20 20 20 8 0 15-5 18-11l-7-3c-2 4-6 7-11 7-7 0-13-6-13-13 0-6 4-11 10-12l-2-7Z" transform="translate(0 -8)"/></svg>
         </div>
         <div class="course-card__divider"></div>
-        <strong class="course-card__slogan">다양함이 힘이 되는 조직</strong>
-        <p>장애에 대한 올바른 이해와 포용적 근무환경 조성을 위한 교육으로, 모든 임직원 대상 교육입니다.</p>
         <div class="requirements">
           <span class="requirements__label">의무사항</span>
           <span>교육자료 게시 및 배포 · 배포 확인</span>
@@ -74,8 +71,6 @@
           <svg viewBox="0 0 64 64"><path d="M32 5 52 13v15c0 14-8 25-20 31C20 53 12 42 12 28V13L32 5Zm0 8-12 5v10c0 10 5 18 12 23 7-5 12-13 12-23V18l-12-5Z"/><path d="M27 29v-4a5 5 0 0 1 10 0v4h3v13H24V29h3Zm4 0h2v-4a1 1 0 0 0-2 0v4Z"/></svg>
         </div>
         <div class="course-card__divider"></div>
-        <strong class="course-card__slogan">소중한 정보를 지키는 우리의 책임</strong>
-        <p>개인정보 보호의 중요성을 이해하고 업무 수행 시 반드시 지켜야 할 사항을 학습하는 교육입니다. 경영기획 대상자에 한해 수강합니다.</p>
         <div class="requirements requirements--optional">
           <span class="requirements__label">대상</span>
           <span>경영기획 소속 임직원</span>
@@ -114,17 +109,17 @@
         <div class="course-buttons">
           <button class="course-button course-button--mandatory" data-course="sexual" data-href="sexual-harassment.html" disabled>
             <span class="course-button__num">01</span>
-            <span class="course-button__text"><b>성희롱 예방교육</b><small>전 임직원 의무</small></span>
+            <span class="course-button__text"><b>성희롱 예방교육 <span class="course-completion-label" hidden>수강완료</span></b><small>전 임직원 의무</small></span>
             <span class="course-button__arrow">›</span>
           </button>
           <button class="course-button course-button--mandatory" data-course="disability" data-href="disability-awareness.html" disabled>
             <span class="course-button__num">02</span>
-            <span class="course-button__text"><b>장애인 인식개선교육</b><small>전 임직원 의무</small></span>
+            <span class="course-button__text"><b>장애인 인식개선교육 <span class="course-completion-label" hidden>수강완료</span></b><small>전 임직원 의무</small></span>
             <span class="course-button__arrow">›</span>
           </button>
           <button class="course-button" data-course="privacy" data-href="privacy.html" disabled>
             <span class="course-button__num">03</span>
-            <span class="course-button__text"><b>개인정보보호</b><small id="privacyCourseLabel">경영기획만 수강</small></span>
+            <span class="course-button__text"><b>개인정보보호 <span class="course-completion-label" hidden>수강완료</span></b><small id="privacyCourseLabel">경영기획만 수강</small></span>
             <span class="course-button__arrow">›</span>
           </button>
         </div>
@@ -137,7 +132,7 @@
   </footer>
 
   <script src="config.js"></script>
-  <script src="auth.js"></script>
-  <script src="app.js?v=20261006-3"></script>
+  <script src="auth.js?v=20261006-4"></script>
+  <script src="app.js?v=20261006-4"></script>
 </body>
 </html>
