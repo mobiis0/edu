@@ -1,0 +1,6 @@
+*.xlsx
+*.csv
+.env
+.env.*
+!\.env.example
+node_modules/
