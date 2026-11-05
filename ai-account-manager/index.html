@@ -8,7 +8,7 @@
 <div class="grid"><div class="metric"><div class="label">등록 라이선스</div><strong id="total">21</strong><small>현재 이용 계정</small></div><div class="metric"><div class="label">이용 확인 완료</div><strong id="confirmed">0 / 13</strong><small>이번 달 점검 결과</small></div></div>
 <section class="section"><div class="sectionHead"><div><h2>서비스 및 요금제 현황</h2><p></p></div><button class="btn small noPrint" id="addProgram">+ 서비스 / 요금제 추가</button></div><div class="tablewrap"><table><thead><tr><th>관리 부서</th><th>서비스</th><th>요금제</th><th>계정 수</th><th>비고</th></tr></thead><tbody id="plans"></tbody></table></div></section>
 <section class="section"><div class="sectionHead"><div><h2>계정별 사용자 점검</h2><p></p></div><div class="bar noPrint"><input class="period" id="search" placeholder="이름 검색" style="width:180px"><button class="btn small primary" id="addUser">+ 사용자 추가</button></div></div><div class="tabs noPrint" id="tabs"><button class="tab active" data-filter="all">전체</button><button class="tab" data-filter="todo">미확인</button><button class="tab" data-filter="ok">확인 완료</button><button class="tab" data-filter="change">변경/차감 완료</button></div><div class="tablewrap"><table><thead><tr><th>번호</th><th>서비스 / 요금제</th><th>사용자</th><th>이번 달 점검</th><th>변경 사유 / 처리상태</th><th class="noPrint">관리</th></tr></thead><tbody id="users"></tbody></table></div><div class="summary"><span>✅ 확인 <b id="sok">0</b>명</span><span>○ 미확인 <b id="stodo">13</b>명</span><span>↻ 변경/차감 완료 <b id="schange">0</b>명</span><span>라이선스 차감 완료 <b id="sdone">0</b>명</span></div></section>
-<div class="two"><section class="section"><div class="sectionHead"><h2>이번 달 변경/차감 완료 내역</h2><span class="tag">완료 기록</span></div><div class="changes" id="changeList"><div class="empty">변경/차감 완료 내역이 없습니다.</div></div></section><section class="section"><div class="sectionHead"><h2>월간 점검 제출</h2><span class="tag">월 1회</span></div><div class="submitArea"><div class="formgrid"><div class="formfield"><label for="manager">점검 담당자</label><input id="manager" placeholder="예: 스마트팩토리 / 홍길동"></div><div class="formfield"><label for="reviewDate">점검일</label><input id="reviewDate" type="date"></div></div><div class="formfield"><label for="memo">검토 의견 / 특이사항</label><textarea id="memo" placeholder="예: 퇴사자 1명 라이선스 차감 완료, 신규 사용자 배정 완료"></textarea></div><div class="foot"><span id="submitted" class="muted" style="font-size:12px">아직 제출되지 않았습니다.</span><button class="btn primary noPrint" id="submit" disabled aria-describedby="submitRequirement">점검 결과 제출</button></div><p id="submitRequirement" role="status" aria-live="polite" aria-atomic="true" class="submissionRequirement blocked">이용 확인 현황을 불러오는 중입니다.</p><p class="muted" style="font-size:11px;line-height:1.6">제출 결과는 중앙 관리표에 기록됩니다. 제출 후 수정한 내용은 다시 제출해 주세요.</p></div></section></div>
+<div class="two"><section class="section"><div class="sectionHead"><h2>이번 달 변경/차감 완료 내역</h2><span class="tag">완료 기록</span></div><div class="changes" id="changeList"><div class="empty">변경/차감 완료 내역이 없습니다.</div></div></section><section class="section"><div class="sectionHead"><h2>월간 점검 제출</h2><span class="tag">월 1회</span></div><div class="submitArea"><div class="formgrid"><div class="formfield"><label for="manager">점검 담당자</label><select id="manager"><option value="">제출 담당자 선택</option></select></div><div class="formfield"><label for="reviewDate">점검일</label><input id="reviewDate" type="date"></div></div><div class="formfield"><label for="memo">검토 의견 / 특이사항</label><textarea id="memo" placeholder="예: 퇴사자 1명 라이선스 차감 완료, 신규 사용자 배정 완료"></textarea></div><div class="foot"><span id="submitted" class="muted" style="font-size:12px">아직 제출되지 않았습니다.</span><button class="btn primary noPrint" id="submit" disabled aria-describedby="submitRequirement">점검 결과 제출</button></div><p id="submitRequirement" role="status" aria-live="polite" aria-atomic="true" class="submissionRequirement blocked">이용 확인 현황을 불러오는 중입니다.</p><p class="muted" style="font-size:11px;line-height:1.6">제출 결과는 중앙 관리표에 기록됩니다. 제출 후 수정한 내용은 다시 제출해 주세요.</p></div></section></div>
 </main></div><dialog id="changeDialog"><div class="dialogInner"><h3>변경/차감 완료 등록</h3><p id="targetName"></p><div class="formfield"><label>변경 유형</label><select id="reason"><option value="퇴사">퇴사</option><option value="입사">입사</option><option value="신규 계정 추가">신규 계정 추가</option><option value="부서이동">부서이동</option><option value="사용 중지">사용 중지</option><option value="사용자 교체">사용자 교체</option><option value="요금제 변경">요금제 변경</option><option value="기타">기타 (직접 입력)</option></select></div><div class="formfield" id="otherReasonWrap" style="display:none"><label>기타 변경 사유</label><input id="otherReason" placeholder="변경 사유를 입력"></div><div class="formfield"><label>실제 처리 결과</label><select id="action"><option value="계정 접근 차단 및 라이선스 차감 완료">계정 접근 차단 및 라이선스 차감 완료</option><option value="계정 접근 차단 완료 (라이선스 유지)">계정 접근 차단 완료 (라이선스 유지)</option><option value="다른 사용자에게 재배정 완료">다른 사용자에게 재배정 완료</option><option value="요금제 변경 완료">요금제 변경 완료</option><option value="신규 사용자 계정 추가 완료">신규 사용자 계정 추가 완료</option><option value="라이선스 증설 완료">라이선스 증설 완료</option></select></div><div class="formfield"><label>비고</label><textarea id="changeNote" placeholder="예: 11월 15일 퇴사, 즉시 계정 회수 필요"></textarea></div><div class="dialogBtns"><button class="btn" onclick="document.getElementById('changeDialog').close()">취소</button><button class="btn primary" id="saveChange">변경/차감 완료 저장</button></div></div></dialog>
 <dialog id="userDialog"><div class="dialogInner"><h3 id="userDialogTitle">사용자 추가</h3><div class="formfield"><label>서비스 / 요금제</label><select id="editPlan"></select></div><div class="formfield"><label>사용자 성명</label><input id="editName" placeholder="성명"></div><div class="dialogBtns"><button class="btn" onclick="document.getElementById('userDialog').close()">취소</button><button class="btn primary" id="saveUser">저장</button></div></div></dialog>
 <dialog id="planDialog"><div class="dialogInner"><h3>서비스 / 요금제 추가</h3><div class="formfield"><label>부서</label><input id="newDepartment" value="스마트팩토리"></div><div class="formfield"><label>프로그램 이름</label><input id="newService" placeholder="예: ChatGPT"></div><div class="formfield"><label>요금제</label><input id="newTier" placeholder="예: Business"></div><div class="formfield"><label>결제 주기</label><select id="newCycle"><option value="월간">월간 (비고 미표시)</option><option value="연간">연간 (비고 표시)</option></select></div><div class="dialogBtns"><button class="btn" onclick="document.getElementById('planDialog').close()">취소</button><button class="btn primary" id="savePlan">추가</button></div></div></dialog><div class="toast" id="toast"></div>
@@ -31,9 +31,8 @@ async function load(dept, month){
  lock(true);
  try{
   const result=await rpc('load',dept,month);
-  revision=result.revision;data={plans:result.plans,months:{[month]:result.state}};
-  $('manager').value=result.state['manager_'+dept]||'';$('memo').value=result.state['memo_'+dept]||'';
-  $('reviewDate').value=result.state.reviewDate||today;
+  revision=result.revision;data={plans:result.plans,months:{[month]:result.state},reviewers:result.reviewers,submissions:result.submissions};
+  setReviewers(dept);
   $('month').value=month;return true;
  }catch(e){toast(e.message);return false}finally{lock(false)}
 }
@@ -41,27 +40,53 @@ async function save(submit=false){
  const dept=selectedDept,month=$('month').value;
  lock(true);
  try{
-  const result=await rpc(submit?'submit':'save',dept,month,{revision,plans:data.plans,state:state()});
-  revision=result.revision;data.plans=result.plans;data.months[month]=result.state;
+  const result=await rpc(submit?'submit':'save',dept,month,{revision,plans:data.plans,state:state(),reviewerId:$('manager').value});
+  revision=result.revision;data.plans=result.plans;data.months[month]=result.state;data.reviewers=result.reviewers;data.submissions=result.submissions;
   return true;
  }catch(e){
   toast(e.message);
   try{
    const result=await rpc('load',dept,month);
-   revision=result.revision;data.plans=result.plans;data.months[month]=result.state;
+   revision=result.revision;data.plans=result.plans;data.months[month]=result.state;data.reviewers=result.reviewers;data.submissions=result.submissions;
   }catch(_){location.reload()}
   return false;
  }finally{lock(false);render()}
 }
 async function refreshAdmin(){
  try{
-  const results=await rpc('admin','',$('month').value);
-  if(selectedDept||!adminTimer)return;
-  $('adminResults').innerHTML='<h3>제출 현황</h3><label>조회 월 <input type="month" id="adminMonth"></label>'+results.map(r=>'<div class="change"><b>'+esc(r.dept)+'</b> · '+(r.submitted?esc(r.submitted)+' · 이용 확인 '+r.checked+'명 · 변경/차감 '+r.changed+'명 · 미확인 '+r.todo+'명<br>'+esc(r.memo):'미제출')+'</div>').join('');
+  const result=await rpc('dashboard','',$('month').value);
+  if(selectedDept||!adminTimer||result.month!==$('month').value)return;
+  if(!$('adminMonth')){
+   $('adminResults').innerHTML='<h3>월별 제출 현황</h3><label for="adminMonth">점검 월</label> <select class="period" id="adminMonth"></select><p id="adminSummary" role="status"></p><div class="tablewrap"><table style="min-width:680px"><thead><tr><th>부서</th><th>제출 담당자</th><th>담당 범위</th><th>제출 상태</th><th>제출일시</th></tr></thead><tbody id="adminReviewers"></tbody></table></div><p id="adminLegacy" class="muted"></p>';
+   $('adminMonth').onchange=e=>{$('month').value=e.target.value;refreshAdmin()};
+  }
+  const months=new Set([...result.months,$('month').value,today.slice(0,7)]);
+  for(let offset=0;offset<12;offset++){
+   const date=new Date(Date.UTC(Number(today.slice(0,4)),Number(today.slice(5,7))-1-offset,1));
+   months.add(date.toISOString().slice(0,7));
+  }
+  const options=[...months].sort().reverse().map(month=>'<option value="'+month+'">'+month.slice(0,4)+'년 '+Number(month.slice(5))+'월</option>').join('');
+  if($('adminMonth').innerHTML!==options)$('adminMonth').innerHTML=options;
   $('adminMonth').value=$('month').value;
-  $('adminMonth').onchange=e=>{if(e.target.value){$('month').value=e.target.value;refreshAdmin()}};
+  const missing=result.reviewers.filter(reviewer=>!reviewer.submittedAt);
+  $('adminSummary').className='submissionRequirement '+(missing.length?'blocked':'ready');
+  $('adminSummary').textContent=missing.length?'미제출 '+missing.length+'명 · '+missing.map(reviewer=>reviewer.name).join(', '):'제출 대상 '+result.reviewers.length+'명 모두 제출했습니다.';
+  $('adminReviewers').innerHTML=result.reviewers.map(reviewer=>'<tr><td>'+esc(reviewer.dept)+'</td><td><b>'+esc(reviewer.name)+'</b></td><td>'+esc(reviewer.label)+'</td><td><span class="badge '+(reviewer.submittedAt?'yes':'exit')+'">'+(reviewer.submittedAt?'제출 완료':'미제출')+'</span></td><td>'+esc(reviewer.submittedAt||'—')+'</td></tr>').join('');
+  $('adminLegacy').textContent=result.legacy.length?'기존 제출 기록 중 담당자를 구분할 수 없는 내역이 있습니다. '+result.legacy.join(', '):'';
  }catch(e){clearInterval(adminTimer);adminTimer=null;toast(e.message)}
 }
+function setReviewers(dept){
+ $('manager').innerHTML='<option value="">제출 담당자 선택</option>'+data.reviewers.map(reviewer=>'<option value="'+esc(reviewer.id)+'">'+esc(reviewer.name+' · '+reviewer.label)+'</option>').join('');
+ // Two science submitters share a department link, so require an explicit selection on each visit.
+ $('manager').value=data.reviewers.length===1?data.reviewers[0].id:'';
+ setReviewerFields();
+}
+function setReviewerFields(){
+ const record=data.submissions.find(record=>record.id===$('manager').value);
+ $('memo').value=record?.memo||'';
+ $('reviewDate').value=record?.reviewDate||today;
+}
+$('manager').onchange=()=>{setReviewerFields();render()};
 $('admin').onclick=()=>{accessCode=$('accessCode').value.trim();clearInterval(adminTimer);adminTimer=setInterval(refreshAdmin,10000);refreshAdmin();showShareLinks()};
 function toast(t){$('toast').textContent=t;$('toast').style.display='block';setTimeout(()=>$('toast').style.display='none',2700)}const status=u=>u.done?'done':u.request?'change':u.check?'ok':'todo';
 function submissionIssue(dept, users){
@@ -70,7 +95,12 @@ function submissionIssue(dept, users){
   if(!users.length)return '점검할 사용자를 등록해 주세요.';
   if(remaining)return '확인하지 않은 사람이 '+remaining+'명 있습니다. 전원 점검을 완료한 후 제출해 주세요.';
  }
- if(dept==='기초과학'&&!users.some(user=>user.check))return '이용 확인한 사람이 0명입니다. 1명 이상 체크한 후 제출해 주세요.';
+ if(dept==='기초과학'){
+  const reviewer=data.reviewers.find(reviewer=>reviewer.id===$('manager').value);
+  if(!reviewer)return '제출 담당자를 선택해 주세요. 이영훈 · 연간 결제 / 김종민 · 팀 월결제';
+  const ownUsers=reviewer.planIds?users.filter(user=>reviewer.planIds.includes(user.plan)):users;
+  if(!ownUsers.some(user=>user.check))return reviewer.name+' 담당 범위에서 이용 확인한 사람이 0명입니다. 1명 이상 체크한 후 제출해 주세요.';
+ }
  return '';
 }
 function render(){const st=state(),plans=data.plans.filter(p=>p.dept===selectedDept),users=st.users.filter(u=>plans.some(p=>p.id===u.plan));const active=users.filter(u=>!u.done);const count=active.length;const checked=users.filter(u=>u.check&&!u.request).length;const requested=users.filter(u=>u.request).length;$('total').textContent=count;$('confirmed').textContent=`${checked} / ${count}`;$('sok').textContent=checked;$('stodo').textContent=users.filter(u=>status(u)==='todo').length;$('schange').textContent=requested;$('sdone').textContent=users.filter(u=>u.done).length;
@@ -81,8 +111,11 @@ const changed=users.filter(u=>u.request);$('changeList').innerHTML=changed.lengt
 const issue=submissionIssue(selectedDept,users);
 $('submit').disabled=busy||!!issue;
 $('submitRequirement').className='submissionRequirement '+(issue?'blocked':'ready');
-$('submitRequirement').textContent=issue||(selectedDept==='스마트팩토리'?'전원 점검을 완료했습니다. 제출할 수 있습니다.':'이용 확인한 사람이 '+checked+'명입니다. 제출할 수 있습니다.');
-$('submitted').textContent=st['submitted_'+selectedDept]?'마지막 제출: '+st['submitted_'+selectedDept]:'아직 제출되지 않았습니다.';}
+const reviewer=data.reviewers.find(reviewer=>reviewer.id===$('manager').value);
+const ownUsers=reviewer?.planIds?users.filter(user=>reviewer.planIds.includes(user.plan)):users;
+$('submitRequirement').textContent=issue||(selectedDept==='스마트팩토리'?'전원 점검을 완료했습니다. 제출할 수 있습니다.':reviewer.name+' 담당 범위에서 이용 확인한 사람이 '+ownUsers.filter(user=>user.check).length+'명입니다. 제출할 수 있습니다.');
+const ownSubmission=data.submissions.find(record=>record.id===$('manager').value);
+$('submitted').textContent=ownSubmission?.submittedAt?'마지막 제출: '+ownSubmission.submittedAt+' · '+ownSubmission.name:(reviewer?'선택한 담당자의 이번 달 제출 기록이 없습니다.':'제출 담당자를 선택해 주세요.');}
 $('users').onclick=e=>{const btn=e.target.closest('button');if(!btn)return;const st=state();const u=st.users.find(u=>u.id===(btn.dataset.edit||btn.dataset.change||btn.dataset.done||btn.dataset.cancel));if(!u)return;if(btn.dataset.change){changing=u.id;$('targetName').textContent=`${u.name} · 변경 사항을 입력해 주세요.`;const currentReason=u.request?.reason||'퇴사';$('reason').value=Array.from($('reason').options).some(o=>o.value===currentReason)?currentReason:'기타';$('otherReasonWrap').style.display=$('reason').value==='기타'?'block':'none';$('otherReason').value=u.request?.reason==='기타'?'':(!Array.from($('reason').options).some(o=>o.value===u.request?.reason)?u.request?.reason||'':'');$('action').value=u.request?.action||'계정 접근 차단 및 라이선스 차감 완료';$('changeNote').value=u.request?.note||'';$('changeDialog').showModal()}else if(btn.dataset.edit){editing=u.id;openUser(u)}};
 $('users').onchange=async e=>{const id=e.target.dataset.check;if(id){let u=state().users.find(u=>u.id===id);if(u){u.check=e.target.checked;await save()}return}const rid=e.target.dataset.reason;if(rid){const u=state().users.find(u=>u.id===rid);if(!u)return;if(!e.target.value){if(u.request&&!confirm('기존 변경 완료 기록을 지우시겠습니까?')){render();return}u.request=null;u.done=false;await save();return}changing=rid;$('targetName').textContent=u.name+' · 변경 내역';$('reason').value=e.target.value;$('otherReason').value=u.request?.reason||'';$('otherReasonWrap').style.display=e.target.value==='기타'?'block':'none';const defaultAction={'신규 계정 추가':'신규 사용자 계정 추가 완료','퇴사':'계정 접근 차단 및 라이선스 차감 완료','입사':'신규 사용자 계정 추가 완료','사용 중지':'계정 접근 차단 완료 (라이선스 유지)','부서이동':'다른 사용자에게 재배정 완료','사용자 교체':'다른 사용자에게 재배정 완료','요금제 변경':'요금제 변경 완료'};$('action').value=u.request?.action||defaultAction[e.target.value]||'다른 사용자에게 재배정 완료';$('changeNote').value=u.request?.note||'';$('changeDialog').showModal();}};
 $('reason').onchange=()=>{$('otherReasonWrap').style.display=$('reason').value==='기타'?'block':'none';if($('reason').value==='입사'||$('reason').value==='신규 계정 추가')$('action').value='신규 사용자 계정 추가 완료';else if($('reason').value==='퇴사')$('action').value='계정 접근 차단 및 라이선스 차감 완료';else if($('reason').value==='사용 중지')$('action').value='계정 접근 차단 완료 (라이선스 유지)';else if($('reason').value==='요금제 변경')$('action').value='요금제 변경 완료';else if($('reason').value==='부서이동'||$('reason').value==='사용자 교체')$('action').value='다른 사용자에게 재배정 완료'};
@@ -97,7 +130,7 @@ $('submit').onclick=async()=>{
  if(busy)return;
  const issue=submissionIssue(selectedDept,state().users);
  if(issue){toast(issue);return}
- const st=state(),manager=$('manager').value.trim(),date=$('reviewDate').value;
+ const st=state(),manager=data.reviewers.find(reviewer=>reviewer.id===$('manager').value)?.name,date=$('reviewDate').value;
  if(!manager||!date){toast('점검 담당자와 점검일을 입력해 주십시오.');return}
  st['manager_'+selectedDept]=manager;st['memo_'+selectedDept]=$('memo').value.trim();st.reviewDate=date;
  if(await save(true))toast('점검 결과를 제출했습니다.');
