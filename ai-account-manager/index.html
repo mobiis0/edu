@@ -103,8 +103,23 @@ function submissionIssue(dept, users){
  }
  return '';
 }
+function combinedPlans(plans, activeUsers){
+ const groups=new Map();
+ for(const plan of plans){
+  const key=JSON.stringify([plan.dept,String(plan.service||'').trim().toLowerCase(),String(plan.tier||'').trim().toLowerCase()]);
+  if(!groups.has(key))groups.set(key,{...plan,ids:[],notes:new Set()});
+  const group=groups.get(key);
+  group.ids.push(plan.id);
+  const note=(plan.note||'').trim();
+  if(note&&!/^\d+\s*석$/.test(note))group.notes.add(note);
+ }
+ return [...groups.values()].map(group=>({
+  ...group,count:activeUsers.filter(user=>group.ids.includes(user.plan)).length,
+  note:[...group.notes].join(' · ')
+ }));
+}
 function render(){const st=state(),plans=data.plans.filter(p=>p.dept===selectedDept),users=st.users.filter(u=>plans.some(p=>p.id===u.plan));const active=users.filter(u=>!u.done);const count=active.length;const checked=users.filter(u=>u.check&&!u.request).length;const requested=users.filter(u=>u.request).length;$('total').textContent=count;$('confirmed').textContent=`${checked} / ${count}`;$('sok').textContent=checked;$('stodo').textContent=users.filter(u=>status(u)==='todo').length;$('schange').textContent=requested;$('sdone').textContent=users.filter(u=>u.done).length;
-$('plans').innerHTML=plans.map(p=>{let n=active.filter(u=>u.plan===p.id).length;return `<tr><td>${esc(p.dept)}</td><td><b>${esc(p.service)}</b></td><td>${esc(p.tier)}</td><td><b>${n}</b>석</td><td class="muted">${esc(p.note)}</td></tr>`}).join('');
+$('plans').innerHTML=combinedPlans(plans,active).map(p=>`<tr><td>${esc(p.dept)}</td><td><b>${esc(p.service)}</b></td><td>${esc(p.tier)}</td><td><b>${p.count}</b>석</td><td class="muted">${esc(p.note)}</td></tr>`).join('');
 const q=$('search').value.toLowerCase();let filtered=users.filter(u=>(filter==='all'||status(u)===filter||(filter==='change'&&status(u)==='done'))&&[u.name].some(v=>(v||'').toLowerCase().includes(q)));
 $('users').innerHTML=filtered.length?filtered.map((u,i)=>{let p=plans.find(p=>p.id===u.plan)||{service:'?',tier:'?',id:''};let stt=status(u);return `<tr><td class="muted">${i+1}</td><td><b>${esc(p.service)}</b><span class="sub">${esc(p.tier)}</span></td><td><span class="username">${esc(u.name)}</span></td><td>${stt==='change'?'<span class="badge pending">✓ 변경/차감 완료</span>':stt==='done'?'<span class="badge none">✓ 차감 완료</span>':`<label class="check"><input type="checkbox" data-check="${u.id}" aria-label="${esc(u.name)} 이용 확인" ${u.check?'checked':''}> 이용 확인</label>`}</td><td><div class="reasonControl"><select aria-label="${esc(u.name)} 변경 사유" data-reason="${u.id}" class="reasonSelect"><option value="">변경 없음</option>${['퇴사','입사','신규 계정 추가','부서이동','사용 중지','사용자 교체','요금제 변경','기타'].map(v=>`<option value="${v}" ${u.request?.reason===v?'selected':''}>${v}</option>`).join('')}${u.request?.reason&&!['퇴사','입사','신규 계정 추가','부서이동','사용 중지','사용자 교체','요금제 변경','기타'].includes(u.request.reason)?`<option selected value="기타">${esc(u.request.reason)}</option>`:''}</select>${u.request?`<span class="sub">${esc(u.request.action)}</span>${u.request.note?`<span class="sub">${esc(u.request.note)}</span>`:''}`:''}</div></td><td class="noPrint"><div class="rowactions"><button class="btn small" data-edit="${u.id}">수정</button><button class="btn small" data-change="${u.id}">변경/차감 완료</button></div></td></tr>`}).join(''):'<tr><td colspan="6" class="empty">해당하는 사용자가 없습니다.</td></tr>';
 const changed=users.filter(u=>u.request);$('changeList').innerHTML=changed.length?changed.map(u=>`<div class="change"><b>${esc(u.name)}</b> · ${esc(u.request.reason)} <span class="badge ${u.done?'none':'pending'}">${'변경/차감 완료'}</span><br><span class="muted">${esc(u.request.action)}${u.request.note?' · '+esc(u.request.note):''}</span></div>`).join(''):'<div class="empty">변경/차감 완료 내역이 없습니다.</div>';
